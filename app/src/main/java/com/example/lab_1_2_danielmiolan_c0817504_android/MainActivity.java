@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -14,9 +15,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager2 pager;
+    public static ViewPager2 pager;
     private TabLayout tabs;
-    private FragmentAdapter fragmentAdapter;
+    public static FragmentAdapter fragmentAdapter;
     public static ProductViewModel productVM;
 
     @Override
@@ -39,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 pager.setCurrentItem(tab.getPosition());
+
+                if (tab.getPosition() == 0) {
+                    fragmentAdapter.clearEditorInputs();
+                } else {
+                    fragmentAdapter.isCreateMode();
+                }
             }
 
             @Override

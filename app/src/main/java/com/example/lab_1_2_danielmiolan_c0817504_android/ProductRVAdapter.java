@@ -1,5 +1,6 @@
 package com.example.lab_1_2_danielmiolan_c0817504_android;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,14 @@ public class ProductRVAdapter extends ListAdapter<Product, ProductRVAdapter.View
             public void onClick(View view) {
                 MainActivity.productVM.deleteById(holder.tempID);
                 Toast.makeText(view.getContext(), "Product deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.fragmentAdapter.editorFragment.setEditMode(model);
+                MainActivity.pager.setCurrentItem(1);
             }
         });
     }

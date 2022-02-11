@@ -24,7 +24,8 @@ public class EditorFragment extends Fragment {
     private EditText productLat;
     private EditText productLong;
     private Button saveBtn;
-
+    private Boolean isEditMode = false;
+    private Product productHolder = new Product();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,8 +68,7 @@ public class EditorFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_editor, container, false);
     }
@@ -89,6 +89,14 @@ public class EditorFragment extends Fragment {
                 saveProduct(view);
             }
         });
+
+        if (isEditMode) {
+            productName.setText(productHolder.getName());
+            productDescription.setText(productHolder.getDescription());
+            productPrice.setText("" + productHolder.getPrice());
+            productLat.setText("" + productHolder.getLatitude());
+            productLong.setText("" + productHolder.getLongitude());
+        }
     }
 
     private void saveProduct(View view) {
@@ -113,19 +121,48 @@ public class EditorFragment extends Fragment {
         }
 
         Product tempProduct = new Product();
+
+
+
         tempProduct.setName(name);
         tempProduct.setDescription(description);
         //tempProduct.setPrice(price);
         //tempProduct.setLatitude(lat);
         //tempProduct.setLongitude(lon);
 
-        MainActivity.productVM.insert(tempProduct);
-        Toast.makeText(view.getContext(), "Product saved", Toast.LENGTH_SHORT).show();
+        if (isEditMode) {
+            tempProduct.setId(productHolder.getId());
+            MainActivity.productVM.update(tempProduct);
+            Toast.makeText(view.getContext(), "Product updated", Toast.LENGTH_SHORT).show();
+        } else {
+            MainActivity.productVM.insert(tempProduct);
+            Toast.makeText(view.getContext(), "Product saved", Toast.LENGTH_SHORT).show();
+            clearInputs();
+        }
+    }
 
+    public void clearInputs() {
         productName.setText("");
         productDescription.setText("");
         productPrice.setText("");
         productLat.setText("");
         productLong.setText("");
+    }
+
+    public void setInsertMode() {
+        isEditMode = false;
+    }
+
+    public void setEditMode(Product product) {
+        isEditMode = true;
+        productHolder = product;
+
+        if (productName != null) {
+            productName.setText(product.getName());
+            productDescription.setText(product.getDescription());
+            productPrice.setText("" + product.getPrice());
+            productLat.setText("" + product.getLatitude());
+            productLong.setText("" + product.getLongitude());
+        }
     }
 }

@@ -9,7 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.List;
 
 public class FragmentAdapter extends FragmentStateAdapter {
-    private EditorFragment editorFragment = new EditorFragment();
+    public EditorFragment editorFragment = new EditorFragment();
     private ProductFragment productFragment = new ProductFragment();
 
     @NonNull
@@ -35,5 +35,17 @@ public class FragmentAdapter extends FragmentStateAdapter {
 
     public void updateProductRVAdapter(List<Product> products) {
         productFragment.updateAdapterList(products);
+    }
+
+    public void clearEditorInputs() {
+        editorFragment.clearInputs();
+    }
+
+    public void isCreateMode() {
+        editorFragment.setInsertMode();
+    }
+
+    public void isUpdateMode(Product product) {
+        editorFragment.setEditMode(product);
     }
 }
