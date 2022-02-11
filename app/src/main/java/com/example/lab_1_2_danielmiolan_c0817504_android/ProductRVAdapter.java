@@ -52,7 +52,7 @@ public class ProductRVAdapter extends ListAdapter<Product, ProductRVAdapter.View
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TO-DO
+                MainActivity.productVM.deleteById(holder.tempID);
                 Toast.makeText(view.getContext(), "Product deleted", Toast.LENGTH_SHORT).show();
             }
         });

@@ -28,7 +28,6 @@ public class ProductViewModel extends AndroidViewModel {
     public void update(Product product) {
         productRepo.update(product);
     }
-    public void delete(Product product) {
-        productRepo.delete(product);
-    }
+    public void delete(Product product) { productRepo.delete(product); }
+    public void deleteById(int id) { productRepo.deleteById(id); }
 }

@@ -22,4 +22,7 @@ public interface ProductDao {
 
     @Delete
     void delete(Product product);
+
+    @Query("DELETE FROM product WHERE id = :productId")
+    void deleteById(long productId);
 }

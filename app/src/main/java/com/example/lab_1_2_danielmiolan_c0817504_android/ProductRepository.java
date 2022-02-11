@@ -22,11 +22,15 @@ public class ProductRepository {
     }
 
     public void update(Product product) {
-        new AsyncInsert(productDao).execute(product);
+        new AsyncUpdate(productDao).execute(product);
     }
 
     public void delete(Product product) {
-        new AsyncInsert(productDao).execute(product);
+        new AsyncDelete(productDao).execute(product);
+    }
+
+    public void deleteById(int id) {
+        new AsyncDeleteById(productDao).execute(id);
     }
 
     public LiveData<List<Product>> getAllProduct() {
@@ -71,6 +75,20 @@ public class ProductRepository {
         @Override
         protected Void doInBackground(Product... product) {
             productAsyncDao.delete(product[0]);
+            return null;
+        }
+    }
+
+    private static class AsyncDeleteById extends AsyncTask<Integer, Void, Void> {
+        private ProductDao productAsyncDao;
+
+        private AsyncDeleteById(ProductDao dao) {
+            this.productAsyncDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... id) {
+            productAsyncDao.deleteById(id[0]);
             return null;
         }
     }
