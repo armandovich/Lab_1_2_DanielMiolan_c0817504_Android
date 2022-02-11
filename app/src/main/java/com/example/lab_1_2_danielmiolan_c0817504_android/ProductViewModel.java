@@ -10,16 +10,16 @@ import java.util.List;
 
 public class ProductViewModel extends AndroidViewModel {
     private ProductRepository productRepo;
-    private LiveData<List<Product>> productTask;
+    private LiveData<List<Product>> allProduct;
 
     public ProductViewModel(@NonNull Application application) {
         super(application);
         productRepo = new ProductRepository(application);
-        productTask = productRepo.getAllProduct();
+        allProduct = productRepo.getAllProduct();
     }
 
-    public LiveData<List<Product>> getAllTask() {
-        return productTask;
+    public LiveData<List<Product>> getAllProdut() {
+        return allProduct;
     }
 
     public void insert(Product product) {

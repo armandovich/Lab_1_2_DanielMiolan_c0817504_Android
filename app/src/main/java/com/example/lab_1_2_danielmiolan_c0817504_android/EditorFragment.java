@@ -2,11 +2,15 @@ package com.example.lab_1_2_danielmiolan_c0817504_android;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +18,13 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class EditorFragment extends Fragment {
+    private EditText productName;
+    private EditText productDescription;
+    private EditText productPrice;
+    private EditText productLat;
+    private EditText productLong;
+    private Button saveBtn;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +71,61 @@ public class EditorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_editor, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        productName = (EditText) view.findViewById(R.id.productNameInput);
+        productDescription = (EditText) view.findViewById(R.id.productDescriptionInput);
+        productPrice = (EditText) view.findViewById(R.id.productPriceInput);
+        productLat = (EditText) view.findViewById(R.id.productLatInput);
+        productLong = (EditText) view.findViewById(R.id.productLongInput);
+
+        saveBtn = (Button) view.findViewById(R.id.saveProductBtn);
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveProduct(view);
+            }
+        });
+    }
+
+    private void saveProduct(View view) {
+        String name = productName.getText().toString();
+        String description = productName.getText().toString();
+        String priceStr = productPrice.getText().toString();
+        String latStr = productLat.getText().toString();
+        String lonStr = productLong.getText().toString();
+
+        double price = priceStr.equals("") ? 0 : Double.parseDouble(priceStr);
+        double lat = latStr.equals("") ? 0 : Double.parseDouble(latStr);
+        double lon = lonStr.equals("") ? 0 : Double.parseDouble(lonStr);
+
+        if(name.equals("")) {
+            Toast.makeText(view.getContext(), "Product name can't be empty.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(description.equals("")) {
+            Toast.makeText(view.getContext(), "Product description can't be empty.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Product tempProduct = new Product();
+        tempProduct.setName(name);
+        tempProduct.setDescription(description);
+        //tempProduct.setPrice(price);
+        //tempProduct.setLatitude(lat);
+        //tempProduct.setLongitude(lon);
+
+        MainActivity.productVM.insert(tempProduct);
+        Toast.makeText(view.getContext(), "Product saved", Toast.LENGTH_SHORT).show();
+
+        productName.setText("");
+        productDescription.setText("");
+        productPrice.setText("");
+        productLat.setText("");
+        productLong.setText("");
     }
 }
