@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import java.util.List;
+
 public class FragmentAdapter extends FragmentStateAdapter {
     private EditorFragment editorFragment = new EditorFragment();
     private ProductFragment productFragment = new ProductFragment();
@@ -29,5 +31,9 @@ public class FragmentAdapter extends FragmentStateAdapter {
 
     public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
+    }
+
+    public void updateProductRVAdapter(List<Product> products) {
+        productFragment.updateAdapterList(products);
     }
 }

@@ -1,12 +1,18 @@
 package com.example.lab_1_2_danielmiolan_c0817504_android;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +20,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ProductFragment extends Fragment {
+
+    private RecyclerView productRV;
+    private ProductRVAdapter productAdapter = new ProductRVAdapter();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +69,19 @@ public class ProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_product, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Context context = getActivity().getApplicationContext();
+
+        productRV = (RecyclerView) view.findViewById(R.id.productList);
+        productRV.setLayoutManager(new LinearLayoutManager(context));
+        productRV.setHasFixedSize(true);
+        productRV.setAdapter(productAdapter);
+    }
+
+    public void updateAdapterList(List<Product> products) {
+        productAdapter.submitList(products);
     }
 }

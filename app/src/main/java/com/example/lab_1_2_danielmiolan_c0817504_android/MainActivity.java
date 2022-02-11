@@ -47,13 +47,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) { }
         });
+
+        loadProducts();
     }
 
-    private void loadCategory() {
+    private void loadProducts() {
         productVM.getAllProdut().observe(this, new Observer<List<Product>>() {
             @Override
-            public void onChanged(List<Product> product) {
-                // TO-DO
+            public void onChanged(List<Product> products) {
+                fragmentAdapter.updateProductRVAdapter(products);
             }
         });
     }
