@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
  */
 public class ProductFragment extends Fragment {
 
+    private TextView productCount;
     private RecyclerView productRV;
     private ProductRVAdapter productAdapter = new ProductRVAdapter();
 
@@ -75,6 +77,8 @@ public class ProductFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Context context = getActivity().getApplicationContext();
 
+        productCount = (TextView) view.findViewById(R.id.productCount);
+        productCount.setText("" + productAdapter.getItemCount());
         productRV = (RecyclerView) view.findViewById(R.id.productList);
         productRV.setLayoutManager(new LinearLayoutManager(context));
         productRV.setHasFixedSize(true);
@@ -83,5 +87,9 @@ public class ProductFragment extends Fragment {
 
     public void updateAdapterList(List<Product> products) {
         productAdapter.submitList(products);
+
+        if (productCount != null) {
+            productCount.setText("" + products.size());
+        }
     }
 }
